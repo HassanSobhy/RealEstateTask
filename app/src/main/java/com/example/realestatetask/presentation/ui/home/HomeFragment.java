@@ -49,7 +49,35 @@ public class HomeFragment extends Fragment {
         initPropertiesSliderViewPager();
         initPropertiesRecycler();
 
+        viewModel.getSliderProperties(getRequest());
+        viewModel.getProperties(getRequest());
+    }
 
+    private ILeadRequest<PropertyRequest> getRequest() {
+        PropertyRequest propertyRequest = getPropertyRequest();
+        return getPropertyRequestILeadRequest(propertyRequest);
+    }
+
+    @NonNull
+    private ILeadRequest<PropertyRequest> getPropertyRequestILeadRequest(PropertyRequest propertyRequest) {
+        ILeadRequest<PropertyRequest> request = new ILeadRequest<>();
+        request.setAppLanguage("en");
+        request.setDeviceSerial("EE1F55CE-18DA-4707-983D-E5B8AFCE1825");
+        request.setMeasureUnitId(2);
+        request.setAppVersion("");
+        request.setNotificationToken("emfsLB2jaEXwhxtS-w1t3z:APA91bEenrpoS6J8VKrAtxrdpxQZFXong7ftVpuyEntgWmt84QCRQVdPp1ANV75fTBTE8o3-AqR0Zb7LrLAqb5znNrsDsbJ4yTqr6YGbTjEc7444Ruz0cmmnnq13ugeISPL2xHPfHMac");
+        request.setDeviceType(1);
+        request.setUserId(0);
+        request.setData(propertyRequest);
+        request.setIp("");
+        request.setCountryId(0);
+        request.setCountryId(65946);
+        request.setOsVersion("");
+        return request;
+    }
+
+    @NonNull
+    private PropertyRequest getPropertyRequest() {
         PropertyRequest propertyRequest = new PropertyRequest();
         propertyRequest.setPropertyFurnishingId(-1);
         propertyRequest.setMinBathRoom(-1);
@@ -76,24 +104,7 @@ public class HomeFragment extends Fragment {
         propertyRequest.setSortTypeId(-1);
         propertyRequest.setMaxBedRoom(-1);
         propertyRequest.setPropertyCity(new ArrayList<Object>());
-
-        ILeadRequest<PropertyRequest> request = new ILeadRequest<>();
-        request.setAppLanguage("en");
-        request.setDeviceSerial("EE1F55CE-18DA-4707-983D-E5B8AFCE1825");
-        request.setMeasureUnitId(2);
-        request.setAppVersion("");
-        request.setNotificationToken("emfsLB2jaEXwhxtS-w1t3z:APA91bEenrpoS6J8VKrAtxrdpxQZFXong7ftVpuyEntgWmt84QCRQVdPp1ANV75fTBTE8o3-AqR0Zb7LrLAqb5znNrsDsbJ4yTqr6YGbTjEc7444Ruz0cmmnnq13ugeISPL2xHPfHMac");
-        request.setDeviceType(1);
-        request.setUserId(0);
-        request.setData(propertyRequest);
-        request.setIp("");
-        request.setCountryId(0);
-        request.setCountryId(65946);
-        request.setOsVersion("");
-
-
-        viewModel.getSliderProperties(request);
-        viewModel.getProperties(request);
+        return propertyRequest;
     }
 
     private void initViewModel() {
