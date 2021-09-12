@@ -7,6 +7,7 @@ import com.example.realestatetask.domain.property.PropertyRepository;
 import com.example.realestatetask.domain.property.entity.Property;
 import com.example.realestatetask.domain.property.request.PropertyRequest;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 
 public class PropertyRepositoryImplementer implements PropertyRepository {
@@ -18,12 +19,12 @@ public class PropertyRepositoryImplementer implements PropertyRepository {
     }
 
     @Override
-    public Call<ILeadResponse<Property>> getSliderProperties(ILeadRequest<PropertyRequest> request) {
+    public Observable<ILeadResponse<Property>> getSliderProperties(ILeadRequest<PropertyRequest> request) {
         return remote.getSliderProperties(request);
     }
 
     @Override
-    public Call<ILeadResponse<Property>> getProperties(ILeadRequest<PropertyRequest> request) {
+    public Observable<ILeadResponse<Property>> getProperties(ILeadRequest<PropertyRequest> request) {
         return remote.getProperties(request);
     }
 }

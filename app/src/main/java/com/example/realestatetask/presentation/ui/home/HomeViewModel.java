@@ -11,9 +11,10 @@ import com.example.realestatetask.domain.property.request.PropertyRequest;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class HomeViewModel extends ViewModel {
 
@@ -23,33 +24,27 @@ public class HomeViewModel extends ViewModel {
     MutableLiveData<List<Property>> sliderProperties = new MutableLiveData<>();
     MutableLiveData<List<Property>> properties = new MutableLiveData<>();
 
+
     public HomeViewModel(PropertyRepository propertyRepository) {
         this.propertyRepository = propertyRepository;
+    }
+
+    private void handleSliderResults(ILeadResponse<Property> data) {
+        sliderProperties.setValue(data.getData());
+    }
+
+    private void handlePropertiesResults(ILeadResponse<Property> data) {
+        properties.setValue(data.getData());
     }
 
     public void getSliderProperties(ILeadRequest<PropertyRequest> request) {
         isLoading.setValue(true);
 
-        Call<ILeadResponse<Property>> response = propertyRepository.getSliderProperties(request);
-        response.enqueue(new Callback<ILeadResponse<Property>>() {
-            @Override
-            public void onResponse(Call<ILeadResponse<Property>> call, Response<ILeadResponse<Property>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().getResponseCode() == 1) {
-                        sliderProperties.setValue(response.body().getData());
-                    } else {
-                        error.setValue(response.body().getResponseMessage());
-                    }
-                } else {
-                    error.setValue(response.message());
-                }
-            }
+        Observable<ILeadResponse<Property>> response = propertyRepository.getSliderProperties(request);
+        response.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleSliderResults);
 
-            @Override
-            public void onFailure(Call<ILeadResponse<Property>> call, Throwable t) {
-                error.setValue(t.getMessage());
-            }
-        });
 
         isLoading.setValue(false);
     }
@@ -57,26 +52,11 @@ public class HomeViewModel extends ViewModel {
     public void getProperties(ILeadRequest<PropertyRequest> request) {
         isLoading.setValue(true);
 
-        Call<ILeadResponse<Property>> response = propertyRepository.getProperties(request);
-        response.enqueue(new Callback<ILeadResponse<Property>>() {
-            @Override
-            public void onResponse(Call<ILeadResponse<Property>> call, Response<ILeadResponse<Property>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().getResponseCode() == 1) {
-                        properties.setValue(response.body().getData());
-                    } else {
-                        error.setValue(response.body().getResponseMessage());
-                    }
-                } else {
-                    error.setValue(response.message());
-                }
-            }
+        Observable<ILeadResponse<Property>> response = propertyRepository.getProperties(request);
+        response.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handlePropertiesResults);
 
-            @Override
-            public void onFailure(Call<ILeadResponse<Property>> call, Throwable t) {
-                error.setValue(t.getMessage());
-            }
-        });
 
         isLoading.setValue(false);
     }
