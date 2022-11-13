@@ -6,6 +6,7 @@ import com.example.realestatetask.domain.property.entity.Property;
 import com.example.realestatetask.domain.property.request.PropertyRequest;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -13,8 +14,8 @@ import retrofit2.http.POST;
 public interface PropertyAPI {
 
     @POST("Property/SliderImagesProperty")
-    Observable<ILeadResponse<Property>> getSliderProperties(@Body ILeadRequest<PropertyRequest> request);
+    Single<ILeadResponse<Property>> getSliderProperties(@Body ILeadRequest<PropertyRequest> request);
 
     @POST("Property/PropertyList")
-    Observable<ILeadResponse<Property>> getProperties(@Body ILeadRequest<PropertyRequest> request);
+    Single<ILeadResponse<Property>> getProperties(@Body ILeadRequest<PropertyRequest> request);
 }

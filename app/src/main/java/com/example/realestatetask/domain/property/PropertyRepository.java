@@ -6,10 +6,11 @@ import com.example.realestatetask.domain.property.entity.Property;
 import com.example.realestatetask.domain.property.request.PropertyRequest;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public interface PropertyRepository {
 
-    Observable<ILeadResponse<Property>> getSliderProperties(ILeadRequest<PropertyRequest> request);
+    Single<ILeadResponse<Property>> getSliderProperties(ILeadRequest<PropertyRequest> request);
 
-    Observable<ILeadResponse<Property>> getProperties(ILeadRequest<PropertyRequest> request);
+    Single<ILeadResponse<Property>> getProperties(ILeadRequest<PropertyRequest> request);
 }

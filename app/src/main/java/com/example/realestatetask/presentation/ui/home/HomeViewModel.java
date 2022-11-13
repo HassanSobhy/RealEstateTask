@@ -12,6 +12,7 @@ import com.example.realestatetask.domain.property.request.PropertyRequest;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -40,7 +41,7 @@ public class HomeViewModel extends ViewModel {
     public void getSliderProperties(ILeadRequest<PropertyRequest> request) {
         isLoading.setValue(true);
 
-        Observable<ILeadResponse<Property>> response = propertyRepository.getSliderProperties(request);
+        Single<ILeadResponse<Property>> response = propertyRepository.getSliderProperties(request);
         response.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleSliderResults);
@@ -52,7 +53,7 @@ public class HomeViewModel extends ViewModel {
     public void getProperties(ILeadRequest<PropertyRequest> request) {
         isLoading.setValue(true);
 
-        Observable<ILeadResponse<Property>> response = propertyRepository.getProperties(request);
+        Single<ILeadResponse<Property>> response = propertyRepository.getProperties(request);
         response.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handlePropertiesResults);
